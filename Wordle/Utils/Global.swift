@@ -29,11 +29,24 @@ enum Global{
         case 321...430:
             return screenWidth - 50
             
-        case 431...000:
+        case 431...1000:
             return 350
             
         default:
             return 500
+        }
+    }
+    
+    static var keyboardScale: CGFloat{
+        switch minDimension{
+        case 0...430:
+            return screenWidth/390
+            
+        case 431...1000:
+            return CGFloat(1.2)
+            
+        default:
+            return CGFloat(1.6)
         }
     }
 }
