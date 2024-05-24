@@ -19,19 +19,26 @@ struct Keyboard: View {
                 ForEach(topArray, id: \.self){ letter in
                     LetterButton(letter: letter)
                 }
+                .disabled(viewModel.disabledKeys)
+                .opacity(viewModel.disabledKeys ? 0.6 : 1)
             }
             HStack(spacing: 2){
                 ForEach(centerArray, id: \.self){ letter in
                     LetterButton(letter: letter)
                 }
+                .disabled(viewModel.disabledKeys)
+                .opacity(viewModel.disabledKeys ? 0.6 : 1)
             }
             HStack(spacing: 2){
                 
                 enterButton(letter: "Enter")
                 
+                
                 ForEach(bottomArray, id: \.self){ letter in
                     LetterButton(letter: letter)
                 }
+                .disabled(viewModel.disabledKeys)
+                .opacity(viewModel.disabledKeys ? 0.6 : 1)
                 
                 deleteButton()
             }
@@ -47,7 +54,8 @@ struct Keyboard: View {
                 .frame(width: 60, height: 50)
                 .background(Color.unused)
                 .foregroundStyle(.primary)
-            
+                .disabled(viewModel.currentWord.count < 5 || !viewModel.inPlay)
+                .opacity(viewModel.currentWord.count < 5 || !viewModel.inPlay ? 0.6 : 1)
             
             
         }
@@ -63,7 +71,8 @@ struct Keyboard: View {
                 .frame(width:40, height: 50)
                 .background(Color.unused)
                 .foregroundStyle(.primary)
-            
+                .disabled(viewModel.currentWord.count < 5 || !viewModel.inPlay)
+                .opacity(viewModel.currentWord.count < 5 || !viewModel.inPlay ? 0.6 : 1)
             
             
         }
