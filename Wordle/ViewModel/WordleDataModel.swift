@@ -9,8 +9,22 @@ import SwiftUI
 
 class WordleDataModel: ObservableObject{
     @Published var guesses: [Guess] = []
+    @Published var incorrentAttempts = [Int](repeating: 0, count: 6)
     
     var keyColors = [String: Color]()
+    
+    var selectedWord = ""
+    var currentWord = ""
+    var tryIndex = 0
+    var inPlay = false
+    
+    var gameStarted: Bool {
+        !currentWord.isEmpty || tryIndex > 0
+    }
+    
+    var disabledKeys: Bool {
+        !inPlay || currentWord.count == 5
+    }
     
     init() {
         newGame()
@@ -18,6 +32,9 @@ class WordleDataModel: ObservableObject{
     
     func newGame() {
         populateDefaults()
+        selectedWord = Global.commonWords.randomElement()!
+        currentWord = ""
+        inPlay = true
     }
     
     func populateDefaults() {
@@ -36,14 +53,32 @@ class WordleDataModel: ObservableObject{
     }
     
     func addToCurrentWord(_ letter: String){
-        
+        currentWord += letter
+        updateRow()
     }
     
-    func enterWord(){
-        
+    func enterWord() {
+        if verifyWord() {
+            print("Valid word")
+        }else{
+            withAnimation {
+                self.incorrentAttempts[tryIndex] += 1
+            }
+            incorrentAttempts[tryIndex] = 0
+        }
+    }
+    
+    func verifyWord() -> Bool {
+        UIReferenceLibraryViewController.dictionaryHasDefinition(forTerm: currentWord)
     }
     
     func removeLetterFromCurrentWord(){
-        
+        currentWord.removeLast()
+        updateRow()
+    }
+    
+    func updateRow(){
+        let guessWord = currentWord.padding(toLength: 5, withPad: " ", startingAt: 0)
+        guesses[tryIndex].word = guessWord
     }
 }
