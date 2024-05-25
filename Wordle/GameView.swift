@@ -18,7 +18,7 @@ struct GameView: View {
                 VStack(spacing: 3){
                     ForEach(0...5, id: \.self){ index in
                         GuessView(guess: $viewModel.guesses[index])
-                            .modifier(Shake(animatableData: CGFloat(viewModel.incorrentAttempts[index])))
+                            .modifier(Shake(animatableData: CGFloat(viewModel.incorrectAttempts[index])))
                     }
                 }
                 .frame(width: Global.boardWidth, height: 6 * Global.boardWidth / 5)
