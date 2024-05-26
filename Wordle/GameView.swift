@@ -33,12 +33,33 @@ struct GameView: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
+            .overlay(alignment: .top){
+                if let toastText = viewModel.toastText{
+                    ToastView(toastText: toastText)
+                        .offset(y: 20)
+                }
+            }
             .toolbar{
                 ToolbarItem(placement: .topBarLeading) {
-                    Button{
+                    HStack{
+                        if !viewModel.inPlay {
+                            Button{
+                                viewModel.newGame()
+                            }label: {
+                                Text("New")
+                                    .foregroundStyle(Color.systemBackground)
+                                    .padding(.horizontal, 15)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10).fill(Color.primary))
+                            }
+                        }
                         
-                    }label: {
-                        Image(systemName: "questionmark.circle")
+                        Button{
+                            
+                        }label: {
+                            Image(systemName: "questionmark.circle")
+                        }
                     }
                 }
                     
